@@ -1,6 +1,6 @@
 <h1>Tambah Destinasi</h1>
 
-<form method="POST" action="/destinations">
+<form method="POST" action="{{ url('/destinations') }}">
     @csrf
 
     <input type="text" name="name" placeholder="Nama"><br><br>

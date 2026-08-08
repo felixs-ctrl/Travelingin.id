@@ -1,6 +1,6 @@
 <h1>Edit Destinasi</h1>
 
-<form method="POST" action="/destinations/{{ $destination->id }}">
+<form method="POST" action="{{ url('/destinations/' . $destination->id) }}">
     @csrf
     @method('PUT')
 

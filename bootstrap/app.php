@@ -11,6 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust all proxies — required for Railway (and most cloud platforms)
+        // that sit behind a reverse proxy/load balancer.
+        // This ensures Laravel correctly detects HTTPS, real IP, etc.
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'admin' => \App\Http\Middleware\IsAdmin::class,
         ]);
