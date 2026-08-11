@@ -28,7 +28,7 @@
 </style>
 
 <!-- Booking Modal -->
-<div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="font-family: 'Plus Jakarta Sans', sans-serif;">
+<div id="bookingModal" class="fixed inset-0 z-[1050] flex items-center justify-center hidden" style="font-family: 'Plus Jakarta Sans', sans-serif;">
     <!-- Backdrop -->
     <div class="absolute inset-0 bg-[#0A192F]/80 backdrop-blur-md transition-opacity duration-300" onclick="closeBookingModal()"></div>
     
