@@ -203,13 +203,13 @@
             .dest-content { padding: 12px !important; }
             .dest-content h3 { font-size: 0.95rem !important; margin-bottom: 5px !important; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .dest-content p { display: none; }
-            .dest-meta { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; font-size: 0.75rem !important; margin-bottom: 10px !important; }
-            .dest-footer { padding-top: 10px !important; flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
-            .dest-footer .btn { width: 100% !important; padding: 6px !important; min-width: 100% !important; font-size: 0.8rem !important; border-radius: 8px !important; }
-            .price-tag { font-size: 1rem !important; }
-            .price-tag span { font-size: 0.7rem !important; }
-            .type-badge { top: 10px !important; left: 10px !important; padding: 4px 10px !important; font-size: 0.6rem !important; }
-            .pkg-badge { top: 10px !important; right: 10px !important; padding: 4px 10px !important; font-size: 0.6rem !important; }
+            .dest-meta { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; font-size: 0.7rem !important; margin-bottom: 8px !important; }
+            .dest-footer { padding-top: 10px !important; flex-direction: column !important; align-items: flex-start !important; gap: 6px !important; }
+            .dest-footer .btn { width: 100% !important; padding: 4px !important; min-width: 100% !important; font-size: 0.75rem !important; border-radius: 6px !important; }
+            .price-tag { font-size: 0.9rem !important; }
+            .price-tag span { font-size: 0.65rem !important; }
+            .type-badge { top: 5px !important; left: 5px !important; padding: 2px 6px !important; font-size: 0.55rem !important; }
+            .pkg-badge { top: 5px !important; right: 5px !important; padding: 2px 6px !important; font-size: 0.55rem !important; }
             
             .btn { padding: 10px 16px !important; font-size: 0.85rem !important; }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
