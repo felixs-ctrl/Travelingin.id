@@ -40,7 +40,7 @@ class BookingController extends Controller
             try {
                 \Illuminate\Support\Facades\Mail::to($booking->email)->send(new \App\Mail\PelunasanConfirmed($booking));
             } catch (\Exception $e) {
-                // Silence mail failures on local
+                return redirect()->back()->with('success', 'Pembayaran Tiket Lunas berhasil dikonfirmasi. TAPI EMAIL GAGAL DIKIRIM: ' . $e->getMessage());
             }
 
             return redirect()->back()->with('success', 'Pembayaran Tiket Lunas berhasil dikonfirmasi.');
@@ -52,7 +52,7 @@ class BookingController extends Controller
         try {
             \Illuminate\Support\Facades\Mail::to($booking->email)->send(new \App\Mail\DpConfirmed($booking));
         } catch (\Exception $e) {
-            // Silence mail failures on local
+            return redirect()->back()->with('success', 'Pembayaran Down Payment berhasil dikonfirmasi. TAPI EMAIL GAGAL DIKIRIM: ' . $e->getMessage());
         }
 
         return redirect()->back()->with('success', 'Pembayaran Down Payment berhasil dikonfirmasi.');
@@ -67,7 +67,7 @@ class BookingController extends Controller
         try {
             \Illuminate\Support\Facades\Mail::to($booking->email)->send(new \App\Mail\PelunasanConfirmed($booking));
         } catch (\Exception $e) {
-            // Silence mail failures on local
+            return redirect()->back()->with('success', 'Pembayaran Pelunasan berhasil dikonfirmasi. Status pesanan diubah menjadi Lunas. TAPI EMAIL GAGAL: ' . $e->getMessage());
         }
 
         return redirect()->back()->with('success', 'Pembayaran Pelunasan berhasil dikonfirmasi. Status pesanan diubah menjadi Lunas.');
