@@ -201,10 +201,11 @@
             .dest-card { border-radius: 12px !important; }
             .dest-img-wrap { height: 120px !important; }
             .dest-content { padding: 12px !important; }
-            .dest-content h3 { font-size: 0.95rem !important; margin-bottom: 5px !important; line-height: 1.2; }
+            .dest-content h3 { font-size: 0.95rem !important; margin-bottom: 5px !important; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .dest-content p { display: none; }
-            .dest-meta { font-size: 0.75rem !important; margin-bottom: 10px !important; gap: 8px !important; flex-wrap: wrap; }
-            .dest-footer { padding-top: 10px !important; }
+            .dest-meta { flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; font-size: 0.75rem !important; margin-bottom: 10px !important; }
+            .dest-footer { padding-top: 10px !important; flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
+            .dest-footer .btn { width: 100% !important; padding: 6px !important; min-width: 100% !important; font-size: 0.8rem !important; border-radius: 8px !important; }
             .price-tag { font-size: 1rem !important; }
             .price-tag span { font-size: 0.7rem !important; }
             .type-badge { top: 10px !important; left: 10px !important; padding: 4px 10px !important; font-size: 0.6rem !important; }

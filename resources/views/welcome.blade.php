@@ -823,17 +823,25 @@
             .dest-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
             
             .category-card { height: 180px !important; border-radius: 12px !important; }
-            .category-overlay { padding: 15px !important; }
-            .category-overlay h3 { font-size: 1.1rem !important; margin-bottom: 5px !important; }
+            .category-overlay { padding: 12px !important; }
+            .category-overlay h3 { font-size: 1rem !important; margin-bottom: 5px !important; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .category-overlay p { display: none; }
             
             .dest-card { border-radius: 12px !important; }
             .dest-img-wrap { height: 120px !important; }
+            .dest-info { padding: 12px !important; }
+            .dest-info h3 { font-size: 0.95rem !important; margin-bottom: 5px !important; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .dest-meta { flex-direction: column; align-items: flex-start !important; gap: 4px !important; font-size: 0.75rem !important; margin-bottom: 10px !important; }
+            .dest-info > div[style*="flex"] { flex-direction: column !important; align-items: flex-start !important; margin-top: 10px !important; gap: 8px !important; }
+            .dest-info button.btn { width: 100% !important; padding: 6px !important; font-size: 0.8rem !important; border-radius: 8px !important; }
+            .dest-price .amount { font-size: 1.1rem !important; }
+            
+            /* Clean up previous classes that might be unused */
             .dest-content { padding: 12px !important; }
-            .dest-content h3 { font-size: 0.95rem !important; margin-bottom: 5px !important; }
+            .dest-content h3 { font-size: 0.95rem !important; margin-bottom: 5px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .dest-content p { display: none; }
-            .dest-meta { font-size: 0.75rem !important; margin-bottom: 10px !important; gap: 8px !important; flex-wrap: wrap; }
-            .dest-footer { padding-top: 10px !important; }
+            .dest-footer { padding-top: 10px !important; flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
+            .dest-footer .btn { width: 100% !important; padding: 6px !important; font-size: 0.8rem !important; }
             .price-tag { font-size: 1rem !important; }
             .price-tag span { font-size: 0.7rem !important; }
             .type-badge { top: 10px !important; left: 10px !important; padding: 4px 10px !important; font-size: 0.6rem !important; }
