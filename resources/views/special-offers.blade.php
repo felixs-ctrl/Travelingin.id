@@ -159,6 +159,7 @@
         @media (max-width: 992px) {
             .nav-links { display: none !important; }
             .mobile-toggle { display: block !important; }
+            .nav-actions > *:not(.mobile-toggle) { display: none !important; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .offers-grid { grid-template-columns: 1fr; gap: 30px; }
         }

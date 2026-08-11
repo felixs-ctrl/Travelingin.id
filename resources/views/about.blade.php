@@ -161,6 +161,7 @@
         @media (max-width: 992px) {
             .nav-links { display: none !important; }
             .mobile-toggle { display: block !important; }
+            .nav-actions > *:not(.mobile-toggle) { display: none !important; }
             .about-flex { flex-direction: column; text-align: center; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
         }

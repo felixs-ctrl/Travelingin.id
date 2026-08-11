@@ -799,6 +799,7 @@
         @media (max-width: 992px) {
             .nav-links { display: none !important; }
             .mobile-toggle { display: block !important; }
+            .nav-actions > *:not(.mobile-toggle) { display: none !important; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .hero h1 { font-size: 2.4rem; }
             .user-name { display: none !important; }
@@ -816,24 +817,35 @@
             .hero-btns .btn { width: 100%; padding: 14px 20px !important; font-size: 0.9rem !important; }
             .btn { padding: 12px 20px !important; font-size: 0.9rem !important; }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
-            .category-card { height: 280px !important; }
-            .category-card-content { padding: 20px !important; }
-            .category-card-content h3 { font-size: 1.4rem !important; }
-            .dest-card { border-radius: 20px !important; }
-            .dest-img-wrap { height: 200px !important; }
-            .dest-content { padding: 20px !important; }
-            .dest-content h3 { font-size: 1.25rem !important; }
-            .dest-content p { font-size: 0.9rem !important; margin-bottom: 15px !important; }
-            section { padding: 50px 0 !important; }
-            .container { padding: 0 20px !important; }
-            h2 { font-size: 1.75rem !important; }
-            .section-header { margin-bottom: 30px !important; }
-            .section-header h2 { font-size: 1.75rem !important; }
-            .section-header p { font-size: 0.95rem !important; }
             
-            /* Make sure the nav-actions don't overflow */
+            /* 2 Columns on Mobile */
+            .categories-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .dest-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            
+            .category-card { height: 180px !important; border-radius: 12px !important; }
+            .category-overlay { padding: 15px !important; }
+            .category-overlay h3 { font-size: 1.1rem !important; margin-bottom: 5px !important; }
+            .category-overlay p { display: none; }
+            
+            .dest-card { border-radius: 12px !important; }
+            .dest-img-wrap { height: 120px !important; }
+            .dest-content { padding: 12px !important; }
+            .dest-content h3 { font-size: 0.95rem !important; margin-bottom: 5px !important; }
+            .dest-content p { display: none; }
+            .dest-meta { font-size: 0.75rem !important; margin-bottom: 10px !important; gap: 8px !important; flex-wrap: wrap; }
+            .dest-footer { padding-top: 10px !important; }
+            .price-tag { font-size: 1rem !important; }
+            .price-tag span { font-size: 0.7rem !important; }
+            .type-badge { top: 10px !important; left: 10px !important; padding: 4px 10px !important; font-size: 0.6rem !important; }
+            
+            section { padding: 40px 0 !important; }
+            .container { padding: 0 16px !important; }
+            h2 { font-size: 1.5rem !important; }
+            .section-header { margin-bottom: 24px !important; }
+            .section-header h2 { font-size: 1.5rem !important; }
+            .section-header p { font-size: 0.85rem !important; }
+            
             .nav-actions { gap: 15px; }
-            .login-link { padding: 8px 16px !important; font-size: 0.85rem; }
         }
     </style>
 </head>
