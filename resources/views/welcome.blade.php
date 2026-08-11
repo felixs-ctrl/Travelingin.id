@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <title>Travelingin.id | Explore the World in Luxury</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,11 +44,21 @@
             box-sizing: border-box;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: var(--font-body);
             color: var(--text-main);
             background-color: var(--bg-light);
             line-height: 1.7;
+            width: 100%;
+            max-width: 100vw;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
@@ -721,17 +735,105 @@
             display: block;
         }
 
-        /* Responsive */
+        /* Mobile Menu Styles */
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+        }
+
+        nav.scrolled .mobile-toggle {
+            color: var(--primary);
+        }
+
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 360px;
+            height: 100vh;
+            background: var(--primary);
+            z-index: 9999;
+            padding: 90px 30px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+        }
+
+        .mobile-drawer.open {
+            right: 0;
+        }
+
+        .mobile-drawer a {
+            color: var(--white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .mobile-drawer-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-drawer-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
         @media (max-width: 992px) {
+            .nav-links { display: none !important; }
+            .mobile-toggle { display: block !important; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
-            .hero h1 { font-size: 3.5rem; }
-            .nav-links { display: none; }
+            .hero h1 { font-size: 2.4rem; }
+            .user-name { display: none !important; }
         }
 
         @media (max-width: 768px) {
-            .footer-grid { grid-template-columns: 1fr; }
-            .category-card { height: 400px; }
-            section { padding: 80px 0; }
+            nav { padding: 15px 5% !important; }
+            nav.scrolled { padding: 10px 5% !important; }
+            .logo img { max-height: 40px !important; }
+            .mobile-toggle { font-size: 1.8rem; padding: 4px; }
+            .hero { padding: 80px 0 40px; text-align: center; }
+            .hero h1 { font-size: 2rem !important; line-height: 1.2; margin-bottom: 16px; }
+            .hero p { font-size: 0.95rem !important; margin-bottom: 24px; line-height: 1.5; }
+            .hero-btns { flex-direction: column; width: 100%; gap: 12px; }
+            .hero-btns .btn { width: 100%; padding: 14px 20px !important; font-size: 0.9rem !important; }
+            .btn { padding: 12px 20px !important; font-size: 0.9rem !important; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .category-card { height: 280px !important; }
+            .category-card-content { padding: 20px !important; }
+            .category-card-content h3 { font-size: 1.4rem !important; }
+            .dest-card { border-radius: 20px !important; }
+            .dest-img-wrap { height: 200px !important; }
+            .dest-content { padding: 20px !important; }
+            .dest-content h3 { font-size: 1.25rem !important; }
+            .dest-content p { font-size: 0.9rem !important; margin-bottom: 15px !important; }
+            section { padding: 50px 0 !important; }
+            .container { padding: 0 20px !important; }
+            h2 { font-size: 1.75rem !important; }
+            .section-header { margin-bottom: 30px !important; }
+            .section-header h2 { font-size: 1.75rem !important; }
+            .section-header p { font-size: 0.95rem !important; }
+            
+            /* Make sure the nav-actions don't overflow */
+            .nav-actions { gap: 15px; }
+            .login-link { padding: 8px 16px !important; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -776,9 +878,27 @@
                         @endif
                     @endauth
                 @endif
+                <button class="mobile-toggle" id="mobile-toggle-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Drawer & Backdrop -->
+    <div class="mobile-drawer-backdrop" id="mobile-backdrop"></div>
+    <div class="mobile-drawer" id="mobile-drawer">
+        <a href="{{ url('/') }}">Home</a>
+        <a href="{{ route('about') }}">About Us</a>
+        <a href="{{ url('/destinations') }}">Destinations</a>
+        <a href="{{ route('special-offers') }}">Special Offers</a>
+        <a href="#contact">Contact Us</a>
+        @auth
+            <a href="{{ route('profile.edit') }}" style="color: var(--accent);"><i class="fas fa-user-circle"></i> Profil Saya</a>
+        @else
+            <a href="{{ route('login') }}" style="color: var(--accent);"><i class="fas fa-sign-in-alt"></i> Login</a>
+        @endauth
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -1042,6 +1162,21 @@
             if (dropdown && !e.target.closest('.login-link')) {
                 dropdown.classList.remove('show');
             }
+        });
+
+        // Mobile Drawer Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('mobile-toggle-btn');
+            const drawer = document.getElementById('mobile-drawer');
+            const backdrop = document.getElementById('mobile-backdrop');
+
+            function toggleMobileMenu() {
+                drawer.classList.toggle('open');
+                backdrop.classList.toggle('open');
+            }
+
+            if (toggleBtn) toggleBtn.addEventListener('click', toggleMobileMenu);
+            if (backdrop) backdrop.addEventListener('click', toggleMobileMenu);
         });
     </script>
     @include('components.booking-modal')

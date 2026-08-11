@@ -2,7 +2,11 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Travelingin.id') }}</title>
 
@@ -35,17 +39,20 @@
     </script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; width: 100%; max-width: 100vw; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; width: 100%; max-width: 100vw; overflow-x: hidden; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
         .glass-nav { background: rgba(10, 25, 47, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body class="bg-primary text-white antialiased">
     <!-- Navbar -->
-    <nav class="glass-nav fixed top-0 w-full z-50 px-10 py-4 flex justify-between items-center">
+    <nav class="glass-nav fixed top-0 w-full z-50 px-6 md:px-10 py-4 flex justify-between items-center">
         <a href="{{ url('/') }}" class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-16 brightness-0 invert">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-12 md:h-16 brightness-0 invert">
         </a>
+        
+        <!-- Desktop Nav -->
         <div class="hidden md:flex gap-8 items-center text-sm font-semibold uppercase tracking-widest">
             <a href="{{ url('/') }}" class="hover:text-accent transition-colors">Home</a>
             <a href="{{ url('/destinations') }}" class="hover:text-accent transition-colors">Destinations</a>
@@ -59,7 +66,45 @@
                 <a href="{{ route('login') }}" class="bg-accent text-primary px-6 py-2 rounded-full hover:scale-105 transition-transform">Login</a>
             @endauth
         </div>
+
+        <!-- Mobile Toggle Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none p-2" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="fixed inset-0 bg-primary/95 z-40 transform translate-x-full transition-transform duration-300 md:hidden pt-24 px-8 flex flex-col space-y-6 text-lg font-semibold uppercase tracking-widest">
+        <a href="{{ url('/') }}" class="hover:text-accent transition-colors py-2 border-b border-white/10">Home</a>
+        <a href="{{ url('/destinations') }}" class="hover:text-accent transition-colors py-2 border-b border-white/10">Destinations</a>
+        <a href="{{ route('special-offers') }}" class="hover:text-accent transition-colors py-2 border-b border-white/10">Special Offers</a>
+        <a href="{{ url('/#contact') }}" class="hover:text-accent transition-colors py-2 border-b border-white/10">Contact Us</a>
+        @auth
+            <a href="{{ route('profile.edit') }}" class="flex items-center gap-4 py-3 text-accent border-b border-white/10">
+                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=D4AF37&color=0A192F&bold=true" class="w-10 h-10 rounded-full">
+                <span>{{ Auth::user()->name }} (Profil)</span>
+            </a>
+        @else
+            <a href="{{ route('login') }}" class="bg-accent text-primary text-center py-3 rounded-full font-bold mt-4">Login</a>
+        @endauth
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (menuBtn && menu) {
+                menuBtn.addEventListener('click', function() {
+                    menu.classList.toggle('translate-x-full');
+                    const icon = menuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-times');
+                    }
+                });
+            }
+        });
+    </script>
 
     <main class="pt-24">
         @if(isset($slot))

@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <title>{{ $destination->name }} | Travelingin.id</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +36,8 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-body); color: var(--text-main); background-color: var(--bg-light); line-height: 1.7; overflow-x: hidden; }
+        html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; width: 100%; max-width: 100vw; overflow-x: hidden; }
+        body { font-family: var(--font-body); color: var(--text-main); background-color: var(--bg-light); line-height: 1.7; width: 100%; max-width: 100vw; overflow-x: hidden; }
         h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); color: var(--primary); font-weight: 700; }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
@@ -99,9 +104,86 @@
         .footer-links a { color: rgba(255,255,255,0.6); font-size: 0.9rem; transition: var(--transition); }
         .footer-links a:hover { color: var(--accent); padding-left: 8px; }
 
+        /* Mobile Menu Styles */
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+        }
+
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 360px;
+            height: 100vh;
+            background: var(--primary);
+            z-index: 9999;
+            padding: 90px 30px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+        }
+
+        .mobile-drawer.open {
+            right: 0;
+        }
+
+        .mobile-drawer a {
+            color: var(--white);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .mobile-drawer-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 25, 47, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-drawer-backdrop.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
         @media (max-width: 1100px) {
             .detail-layout { grid-template-columns: 1fr; }
             .booking-sidebar { position: static; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 10px 4% !important; }
+            .logo img { max-height: 42px !important; }
+            .nav-links { display: none !important; }
+            .mobile-toggle { display: block; }
+            .container { padding: 0 16px; }
+            .detail-layout { padding: 30px 0 !important; gap: 24px !important; }
+            .detail-header { height: auto; padding: 95px 0 30px !important; }
+            .header-content h1 { font-size: 1.6rem !important; margin-bottom: 8px !important; }
+            .content-card { padding: 18px !important; border-radius: 20px !important; }
+            .section-title { font-size: 1.3rem !important; margin-bottom: 15px !important; }
+            .description-text { font-size: 0.9rem !important; line-height: 1.6 !important; margin-bottom: 25px !important; }
+            .features-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+            .feature-item { padding: 12px 15px !important; border-radius: 14px !important; font-size: 0.85rem !important; }
+            .booking-card { padding: 20px !important; border-radius: 20px !important; }
+            .main-price { font-size: 1.8rem !important; }
+            .btn { padding: 10px 20px !important; font-size: 0.85rem !important; }
+            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
         }
     </style>
 </head>
@@ -120,7 +202,7 @@
                 <li><a href="{{ route('special-offers') }}">Special Offers</a></li>
                 <li><a href="{{ url('/#contact') }}">Contact Us</a></li>
             </ul>
-            <div class="nav-actions">
+            <div class="nav-actions" style="display: flex; align-items: center; gap: 15px;">
                 @auth
                     <a href="{{ route('profile.edit') }}">
                         <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=D4AF37&color=fff&rounded=true" alt="Profile" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent);">
@@ -128,9 +210,27 @@
                 @else
                     <a href="{{ route('login') }}" class="btn btn-primary" style="padding: 10px 24px;">Login</a>
                 @endauth
+                <button class="mobile-toggle" id="mobile-toggle-btn" aria-label="Toggle Navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-drawer-backdrop" id="mobile-backdrop"></div>
+    <div class="mobile-drawer" id="mobile-drawer">
+        <a href="{{ url('/') }}">Home</a>
+        <a href="{{ route('about') }}">About Us</a>
+        <a href="{{ url('/destinations') }}">Destinations</a>
+        <a href="{{ route('special-offers') }}">Special Offers</a>
+        <a href="{{ url('/#contact') }}">Contact Us</a>
+        @auth
+            <a href="{{ route('profile.edit') }}" style="color: var(--accent);"><i class="fas fa-user-circle"></i> Profil Saya</a>
+        @else
+            <a href="{{ route('login') }}" style="color: var(--accent);"><i class="fas fa-sign-in-alt"></i> Login</a>
+        @endauth
+    </div>
 
     <!-- Header -->
     <header class="detail-header">
@@ -338,6 +438,21 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true, offset: 50 });
+
+        // Mobile Drawer Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('mobile-toggle-btn');
+            const drawer = document.getElementById('mobile-drawer');
+            const backdrop = document.getElementById('mobile-backdrop');
+
+            function toggleMobileMenu() {
+                drawer.classList.toggle('open');
+                backdrop.classList.toggle('open');
+            }
+
+            if (toggleBtn) toggleBtn.addEventListener('click', toggleMobileMenu);
+            if (backdrop) backdrop.addEventListener('click', toggleMobileMenu);
+        });
     </script>
     @include('components.booking-modal')
 </body>
