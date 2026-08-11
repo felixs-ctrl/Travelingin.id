@@ -35,23 +35,23 @@
 <body class="text-white antialiased min-h-screen flex flex-col">
 
     <!-- Simple Header with Back Button -->
-    <header class="p-8 flex justify-between items-center">
+    <header class="p-5 md:p-8 flex justify-between items-center">
         <a href="{{ url()->previous() }}" class="flex items-center gap-3 text-white/50 hover:text-accent transition-colors font-bold text-sm">
             <i class="fas fa-arrow-left"></i>
             <span>KEMBALI</span>
         </a>
-        <img src="{{ asset('images/logo.png') }}" class="h-12 brightness-0 invert opacity-80">
-        <div class="w-20"></div> <!-- Spacer for symmetry -->
+        <img src="{{ asset('images/logo.png') }}" class="h-10 md:h-12 brightness-0 invert opacity-80">
+        <div class="w-16 md:w-20"></div> <!-- Spacer for symmetry -->
     </header>
 
-    <main class="flex-1 flex items-center justify-center p-6 pb-20">
-        <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+    <main class="flex-1 flex items-center justify-center p-4 md:p-6 pb-20">
+        <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
             
             <!-- Left Side: Payment Methods -->
             <div class="space-y-8">
                 <div>
-                    <h1 class="text-5xl font-bold mb-4 italic leading-tight">Metode<br>Pembayaran</h1>
-                    <p class="text-white/40 text-lg">Pilih metode yang paling nyaman bagi Anda.</p>
+                    <h1 class="text-3xl md:text-5xl font-bold mb-3 md:mb-4 italic leading-tight">Metode<br>Pembayaran</h1>
+                    <p class="text-white/40 text-base md:text-lg">Pilih metode yang paling nyaman bagi Anda.</p>
                 </div>
 
                 <!-- Payment Tabs -->
@@ -67,18 +67,18 @@
                 </div>
 
                 <!-- Bank Info Card -->
-                <div id="bank-info" class="glass-card p-10 rounded-[40px] relative overflow-hidden transition-all duration-500">
-                    <p class="text-accent text-[10px] font-bold uppercase tracking-[4px] mb-6">Informasi Rekening</p>
-                    <div class="bg-white rounded-3xl p-8 text-primary shadow-2xl">
-                        <div class="flex justify-between items-center mb-6">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="h-6">
+                <div id="bank-info" class="glass-card p-6 md:p-10 rounded-3xl md:rounded-[40px] relative overflow-hidden transition-all duration-500">
+                    <p class="text-accent text-[10px] font-bold uppercase tracking-[4px] mb-4 md:mb-6">Informasi Rekening</p>
+                    <div class="bg-white rounded-2xl md:rounded-3xl p-6 md:p-8 text-primary shadow-2xl">
+                        <div class="flex justify-between items-center mb-4 md:mb-6">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="h-5 md:h-6">
                             <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">BCA Virtual Account</span>
                         </div>
                         <div class="space-y-4">
                             <div>
                                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Nomor Rekening</p>
                                 <div class="flex items-center justify-between">
-                                    <p class="text-3xl font-bold tracking-wider">8820 9912 34</p>
+                                    <p class="text-2xl md:text-3xl font-bold tracking-wider">8820 9912 34</p>
                                     <button onclick="copyToClipboard('8820991234')" class="bg-primary/5 hover:bg-primary/10 text-primary text-[10px] font-bold px-4 py-2 rounded-xl transition-colors">SALIN</button>
                                 </div>
                             </div>
@@ -88,10 +88,10 @@
                 </div>
 
                 <!-- QRIS Info Card (Hidden by default) -->
-                <div id="qris-info" class="hidden glass-card p-10 rounded-[40px] transition-all duration-500 text-center">
-                    <p class="text-accent text-[10px] font-bold uppercase tracking-[4px] mb-6">Scan QRIS Untuk Bayar</p>
-                    <div class="bg-white rounded-3xl p-6 inline-block shadow-2xl">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=TravelinginID-Booking-{{ $booking->id }}" class="w-56 h-56 mx-auto">
+                <div id="qris-info" class="hidden glass-card p-6 md:p-10 rounded-3xl md:rounded-[40px] transition-all duration-500 text-center">
+                    <p class="text-accent text-[10px] font-bold uppercase tracking-[4px] mb-4 md:mb-6">Scan QRIS Untuk Bayar</p>
+                    <div class="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 inline-block shadow-2xl">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=TravelinginID-Booking-{{ $booking->id }}" class="w-48 h-48 md:w-56 md:h-56 mx-auto">
                         <div class="mt-4 flex items-center justify-center gap-3">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" class="h-5">
                         </div>
@@ -99,9 +99,9 @@
                     <p class="text-white/40 text-[10px] mt-6 font-bold uppercase tracking-widest">Mendukung Gopey, OVO, Dana, LinkAja & M-Banking</p>
                 </div>
 
-                <div class="bg-accent/5 border border-accent/10 p-6 rounded-[30px] flex items-center gap-5">
-                    <div class="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center text-accent shrink-0">
-                        <i class="fas fa-shield-alt text-xl"></i>
+                <div class="bg-accent/5 border border-accent/10 p-4 md:p-6 rounded-2xl md:rounded-[30px] flex items-center gap-4 md:gap-5">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-accent/20 flex items-center justify-center text-accent shrink-0">
+                        <i class="fas fa-shield-alt text-lg md:text-xl"></i>
                     </div>
                     <p class="text-[11px] text-white/50 font-medium leading-relaxed">Sistem kami mencatat setiap transaksi secara otomatis. Harap unggah bukti bayar untuk mempercepat proses konfirmasi.</p>
                 </div>
@@ -111,10 +111,10 @@
             <div class="lg:sticky lg:top-10">
                 <form action="{{ route('bookings.confirmPayment', $booking->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="bg-white p-12 rounded-[60px] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)]">
-                        <div class="flex justify-between items-start mb-10">
+                    <div class="bg-white p-6 md:p-12 rounded-3xl md:rounded-[60px] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
+                        <div class="flex justify-between items-start mb-6 md:mb-10">
                             <div>
-                                <h3 class="text-primary font-bold text-3xl italic">Konfirmasi</h3>
+                                <h3 class="text-primary font-bold text-2xl md:text-3xl italic">Konfirmasi</h3>
                                 <p class="text-gray-400 text-xs mt-1">Unggah bukti bayar Anda</p>
                             </div>
                             <div class="text-right">
@@ -132,13 +132,13 @@
                         </div>
                         
                         <!-- Upload Area -->
-                        <div class="mb-10">
+                        <div class="mb-6 md:mb-10">
                             <label class="block cursor-pointer group">
-                                <div class="relative border-2 border-dashed border-gray-100 rounded-[40px] p-10 text-center transition-all hover:border-accent hover:bg-accent/[0.02]">
+                                <div class="relative border-2 border-dashed border-gray-100 rounded-2xl md:rounded-[40px] p-6 md:p-10 text-center transition-all hover:border-accent hover:bg-accent/[0.02]">
                                     <input type="file" name="payment_proof" id="payment_proof" required class="hidden" onchange="previewImage(this)">
                                     
                                     <div id="upload-placeholder" class="space-y-4">
-                                        <div class="w-20 h-20 bg-gray-50 rounded-[25px] flex items-center justify-center mx-auto text-gray-300 group-hover:text-accent group-hover:bg-accent/10 transition-all duration-500">
+                                        <div class="w-16 h-16 md:w-20 md:h-20 bg-gray-50 rounded-2xl md:rounded-[25px] flex items-center justify-center mx-auto text-gray-300 group-hover:text-accent group-hover:bg-accent/10 transition-all duration-500">
                                             <i class="fas fa-camera text-3xl"></i>
                                         </div>
                                         <div>

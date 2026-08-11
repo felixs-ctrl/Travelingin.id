@@ -33,15 +33,15 @@
     <div class="absolute inset-0 bg-[#0A192F]/80 backdrop-blur-md transition-opacity duration-300" onclick="closeBookingModal()"></div>
     
     <!-- Modal Card -->
-    <div class="relative bg-[#0A192F] text-white w-full max-w-2xl mx-4 rounded-3xl border border-[#D4AF37]/30 shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 z-10" id="bookingModalCard">
+    <div class="relative bg-[#0A192F] text-white w-full max-w-2xl mx-4 rounded-3xl border border-[#D4AF37]/30 shadow-2xl overflow-y-auto max-h-[90vh] md:max-h-none md:overflow-hidden transform scale-95 opacity-0 transition-all duration-300 z-10" id="bookingModalCard">
         <!-- Close Button -->
-        <button onclick="closeBookingModal()" class="absolute top-6 right-6 text-white/50 hover:text-[#D4AF37] transition-colors focus:outline-none z-20">
+        <button onclick="closeBookingModal()" class="absolute top-4 right-4 md:top-6 md:right-6 text-white/50 hover:text-[#D4AF37] transition-colors focus:outline-none z-20">
             <i class="fas fa-times text-xl"></i>
         </button>
 
         <div class="grid grid-cols-1 md:grid-cols-12">
             <!-- Left Panel (Summary) -->
-            <div class="md:col-span-5 bg-[#112240] p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#D4AF37]/10">
+            <div class="md:col-span-5 bg-[#112240] p-5 md:p-8 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#D4AF37]/10">
                 <div>
                     <span class="text-[#D4AF37] text-[10px] uppercase tracking-widest font-bold block mb-2">Pilihan Perjalanan</span>
                     <h3 id="modalDestName" class="text-2xl font-bold text-white mb-4 leading-tight">Nama Destinasi</h3>
@@ -71,7 +71,7 @@
             </div>
 
             <!-- Right Panel (Form) -->
-            <form action="{{ route('bookings.store') }}" method="POST" class="md:col-span-7 p-8 space-y-5">
+            <form action="{{ route('bookings.store') }}" method="POST" class="md:col-span-7 p-5 md:p-8 space-y-4 md:space-y-5">
                 @csrf
                 <input type="hidden" name="destination_id" id="modalDestIdInput">
                 <input type="hidden" name="tanggal_booking" id="modalTravelDateInput">
