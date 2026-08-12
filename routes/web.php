@@ -18,6 +18,11 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/cleanup-user-putrabann', function () {
+    $deleted = \App\Models\User::where('email', 'putrabann@gmail.com')->delete();
+    return "Akun putrabann@gmail.com berhasil dihapus dari database! (Jumlah akun terhapus: {$deleted})";
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
