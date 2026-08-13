@@ -56,11 +56,13 @@
 
                 <!-- Payment Tabs -->
                 <div class="grid grid-cols-3 gap-3 p-2 bg-white/5 rounded-2xl border border-white/5">
+                    @if(isset($snapToken) && $snapToken)
                     <button onclick="switchPayment('midtrans')" id="tab-midtrans" class="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all bg-accent text-primary">
                         <i class="fas fa-bolt"></i>
                         <span>Otomatis (PG)</span>
                     </button>
-                    <button onclick="switchPayment('bank')" id="tab-bank" class="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all text-white/40 hover:text-white">
+                    @endif
+                    <button onclick="switchPayment('bank')" id="tab-bank" class="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all {{ !(isset($snapToken) && $snapToken) ? 'bg-accent text-primary' : 'text-white/40 hover:text-white' }}">
                         <i class="fas fa-university"></i>
                         <span>Bank Transfer</span>
                     </button>
@@ -70,6 +72,7 @@
                     </button>
                 </div>
 
+                @if(isset($snapToken) && $snapToken)
                 <!-- Midtrans Automatic Card -->
                 <div id="midtrans-info" class="glass-card p-6 md:p-10 rounded-3xl md:rounded-[40px] transition-all duration-500 text-center">
                     <p class="text-accent text-[10px] font-bold uppercase tracking-[4px] mb-4">Payment Gateway Otomatis (Midtrans)</p>
@@ -79,6 +82,7 @@
                         <span class="tracking-wide">BAYAR SEKARANG VIA MIDTRANS</span>
                     </button>
                 </div>
+                @endif
 
                 <!-- Bank Info Card -->
                 <div id="bank-info" class="glass-card p-6 md:p-10 rounded-3xl md:rounded-[40px] relative overflow-hidden transition-all duration-500">
