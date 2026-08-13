@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     protected $fillable = [
+        'user_id',
         'nama',
         'no_hp',
         'email',
@@ -21,6 +22,11 @@ class Booking extends Model
         'cancellation_reason',
         'points_earned'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function destination()
     {

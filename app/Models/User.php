@@ -35,4 +35,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Chat::class);
     }
+
+    public function bookings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

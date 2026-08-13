@@ -37,6 +37,7 @@ class BookingController extends Controller
         $dpAmount = ($destination->type === 'tiket') ? $totalPrice : ($totalPrice * 0.3); 
 
         $booking = Booking::create([
+            'user_id' => auth()->id(),
             'destination_id' => $request->destination_id,
             'nama' => $request->nama,
             'email' => $request->email,
