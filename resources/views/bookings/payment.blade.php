@@ -55,16 +55,34 @@
                 </div>
 
                 <!-- Payment Tabs -->
-                <div class="flex gap-4 p-2 bg-white/5 rounded-2xl border border-white/5">
-                    <button onclick="switchPayment('bank')" id="tab-bank" class="flex-1 flex items-center justify-center gap-3 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all bg-accent text-primary">
+                <div class="grid grid-cols-3 gap-3 p-2 bg-white/5 rounded-2xl border border-white/5">
+                    @if(isset($snapToken) && $snapToken)
+                    <button onclick="switchPayment('midtrans')" id="tab-midtrans" class="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all bg-accent text-primary">
+                        <i class="fas fa-bolt"></i>
+                        <span>Otomatis (PG)</span>
+                    </button>
+                    @endif
+                    <button onclick="switchPayment('bank')" id="tab-bank" class="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all {{ !(isset($snapToken) && $snapToken) ? 'bg-accent text-primary' : 'text-white/40 hover:text-white' }}">
                         <i class="fas fa-university"></i>
                         <span>Bank Transfer</span>
                     </button>
-                    <button onclick="switchPayment('qris')" id="tab-qris" class="flex-1 flex items-center justify-center gap-3 py-4 rounded-xl font-bold text-xs uppercase tracking-widest transition-all text-white/40 hover:text-white">
+                    <button onclick="switchPayment('qris')" id="tab-qris" class="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all text-white/40 hover:text-white">
                         <i class="fas fa-qrcode"></i>
                         <span>QRIS / E-Wallet</span>
                     </button>
                 </div>
+
+                @if(isset($snapToken) && $snapToken)
+                <!-- Midtrans Automatic Card -->
+                <div id="midtrans-info" class="glass-card p-6 md:p-10 rounded-3xl md:rounded-[40px] transition-all duration-500 text-center">
+                    <p class="text-accent text-[10px] font-bold uppercase tracking-[4px] mb-4">Payment Gateway Otomatis (Midtrans)</p>
+                    <p class="text-white/70 text-sm mb-6">Bayar via Virtual Account (BCA, Mandiri, BRI, BNI), QRIS, ShopeePay, GoPay, atau Kartu Kredit. Transaksi diverifikasi secara otomatis dalam hitungan detik.</p>
+                    <button id="pay-button" class="w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 text-primary font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-3">
+                        <i class="fas fa-shield-alt text-lg"></i>
+                        <span class="tracking-wide">BAYAR SEKARANG VIA MIDTRANS</span>
+                    </button>
+                </div>
+                @endif
 
                 <!-- Bank Info Card -->
                 <div id="bank-info" class="glass-card p-6 md:p-10 rounded-3xl md:rounded-[40px] relative overflow-hidden transition-all duration-500">
@@ -200,29 +218,71 @@
         <p class="text-white/10 text-[10px] font-bold uppercase tracking-[8px]">Travelingin.id &bull; Secure Checkout</p>
     </footer>
 
+    @if(isset($snapToken) && $snapToken)
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+    <script>
+        const payButton = document.getElementById('pay-button');
+        if (payButton) {
+            payButton.addEventListener('click', function () {
+                window.snap.pay('{{ $snapToken }}', {
+                    onSuccess: function(result){
+                        alert("Pembayaran berhasil diselesaikan!");
+                        window.location.href = "{{ route('bookings.success', $booking->id) }}";
+                    },
+                    onPending: function(result){
+                        alert("Menunggu pembayaran Anda.");
+                    },
+                    onError: function(result){
+                        alert("Pembayaran gagal atau dibatalkan.");
+                    },
+                    onClose: function(){
+                        alert('Anda menutup popup sebelum menyelesaikan pembayaran');
+                    }
+                });
+            });
+        }
+    </script>
+    @endif
+
     <script>
         function switchPayment(type) {
             const bankInfo = document.getElementById('bank-info');
             const qrisInfo = document.getElementById('qris-info');
+            const midtransInfo = document.getElementById('midtrans-info');
+
             const tabBank = document.getElementById('tab-bank');
             const tabQris = document.getElementById('tab-qris');
+            const tabMidtrans = document.getElementById('tab-midtrans');
 
-            if (type === 'bank') {
+            if (bankInfo) bankInfo.classList.add('hidden');
+            if (qrisInfo) qrisInfo.classList.add('hidden');
+            if (midtransInfo) midtransInfo.classList.add('hidden');
+
+            if (tabBank) { tabBank.classList.remove('bg-accent', 'text-primary'); tabBank.classList.add('text-white/40'); }
+            if (tabQris) { tabQris.classList.remove('bg-accent', 'text-primary'); tabQris.classList.add('text-white/40'); }
+            if (tabMidtrans) { tabMidtrans.classList.remove('bg-accent', 'text-primary'); tabMidtrans.classList.add('text-white/40'); }
+
+            if (type === 'midtrans' && midtransInfo && tabMidtrans) {
+                midtransInfo.classList.remove('hidden');
+                tabMidtrans.classList.add('bg-accent', 'text-primary');
+                tabMidtrans.classList.remove('text-white/40');
+            } else if (type === 'bank' && bankInfo && tabBank) {
                 bankInfo.classList.remove('hidden');
-                qrisInfo.classList.add('hidden');
                 tabBank.classList.add('bg-accent', 'text-primary');
                 tabBank.classList.remove('text-white/40');
-                tabQris.classList.remove('bg-accent', 'text-primary');
-                tabQris.classList.add('text-white/40');
-            } else {
-                bankInfo.classList.add('hidden');
+            } else if (type === 'qris' && qrisInfo && tabQris) {
                 qrisInfo.classList.remove('hidden');
                 tabQris.classList.add('bg-accent', 'text-primary');
                 tabQris.classList.remove('text-white/40');
-                tabBank.classList.remove('bg-accent', 'text-primary');
-                tabBank.classList.add('text-white/40');
             }
         }
+
+        // Default to midtrans tab if available
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('tab-midtrans')) {
+                switchPayment('midtrans');
+            }
+        });
 
         function previewImage(input) {
             const preview = document.getElementById('image-preview');
@@ -234,15 +294,16 @@
                 reader.onload = function(e) {
                     preview.src = e.target.result;
                     container.classList.remove('hidden');
-                    placeholder.classList.add('opacity-0');
+                    placeholder.classList.add('hidden');
                 }
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text);
-            alert('Nomor rekening disalin!');
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Nomor rekening berhasil disalin!');
+            });
         }
     </script>
 </body>

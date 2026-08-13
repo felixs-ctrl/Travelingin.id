@@ -55,7 +55,47 @@ class BookingController extends Controller
     public function payment($id)
     {
         $booking = Booking::with('destination')->findOrFail($id);
-        return view('bookings.payment', compact('booking'));
+
+        $snapToken = null;
+        try {
+            if (class_exists('\Midtrans\Config')) {
+                \Midtrans\Config::$serverKey = config('services.midtrans.server_key');
+                \Midtrans\Config::$isProduction = config('services.midtrans.is_production');
+                \Midtrans\Config::$isSanitized = config('services.midtrans.is_sanitized');
+                \Midtrans\Config::$is3ds = config('services.midtrans.is_3ds');
+
+                $amount = ($booking->status === 'confirmed') ? ($booking->total_price - $booking->dp_amount) : $booking->dp_amount;
+                if ($amount <= 0) {
+                    $amount = $booking->total_price;
+                }
+
+                $params = [
+                    'transaction_details' => [
+                        'order_id' => 'TRV-' . $booking->id . '-' . time(),
+                        'gross_amount' => (int) $amount,
+                    ],
+                    'customer_details' => [
+                        'first_name' => $booking->nama,
+                        'email' => $booking->email,
+                        'phone' => $booking->no_hp,
+                    ],
+                    'item_details' => [
+                        [
+                            'id' => 'DEST-' . $booking->destination_id,
+                            'price' => (int) $amount,
+                            'quantity' => 1,
+                            'name' => substr($booking->destination->title ?? 'Paket Wisata', 0, 50),
+                        ]
+                    ]
+                ];
+
+                $snapToken = \Midtrans\Snap::getSnapToken($params);
+            }
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Midtrans Snap Error: ' . $e->getMessage());
+        }
+
+        return view('bookings.payment', compact('booking', 'snapToken'));
     }
 
     public function confirmPayment(Request $request, $id)

@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // This ensures Laravel correctly detects HTTPS, real IP, etc.
         $middleware->trustProxies(at: '*');
 
+        $middleware->validateCsrfTokens(except: [
+            'payments/midtrans-notification',
+        ]);
+
         $middleware->alias([
             'admin' => \App\Http\Middleware\IsAdmin::class,
         ]);
