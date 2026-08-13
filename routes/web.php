@@ -55,9 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings/{id}/invoice', [\App\Http\Controllers\BookingController::class, 'invoice'])->name('bookings.invoice');
 });
 
-// Midtrans Webhook Callback Route (Exempted from CSRF)
-Route::post('/payments/midtrans-notification', [\App\Http\Controllers\PaymentCallbackController::class, 'handleCallback'])->name('payments.midtrans.callback');
-
 Route::get('/special-offers', [DestinationController::class, 'specialOffers'])->name('special-offers');
 Route::get('/destinations', [DestinationController::class, 'index'])->name('destinations.index');
 Route::get('/destinations/{destination}', [DestinationController::class, 'show'])->name('destinations.show');
